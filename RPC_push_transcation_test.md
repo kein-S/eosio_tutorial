@@ -143,3 +143,13 @@ result Failed
 ```
 {"code":500,"message":"Internal Service Error","error":{"code":3090003,"name":"unsatisfied_authorization","what":"provided keys, permissions, and delays do not satisfy declared authorizations","details":[{"message":"transaction declares authority '{\"actor\":\"keintest1\",\"permission\":\"active\"}', but does not have signatures for it under a provided delay of 0 ms, provided permissions [], and provided keys [\"EOS6LtXznHeMS8fSMw5Dfn8KHHpjQmo49bNt8fo9SBHHUS8Lsvsj3\"]","file":"authorization_manager.cpp","line_number":409,"method":"check_authorization"}]}}
 ```
+
+reference issue
+https://github.com/EOSIO/eos/issues/3652?ref=tokendaily
+```
+Putting the chain id while signing the transaction fixes this issue.
+
+You can get chain id from /v1/chain/get_info where you get ref_block_num and ref_block_prefix
+
+curl http://localhost:8888/v1/wallet/sign_transaction -X POST -d '[{"ref_block_num":21453,"ref_block_prefix":3165644999,"expiration":"2017-12-08T10:28:49","scope":["initb","initc"],"read_scope":[],"messages":[{"code":"currency","type":"transfer","authorization":[{"account":"initb","permission":"active"}],"data":"000000008093dd74000000000094dd74e803000000000000"}],"signatures":[]}, ["EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV"], "<INSERT_CHAIN_ID_HERE>"]'
+```
