@@ -25,5 +25,9 @@
 * 해당 모바일 지갑이 자체적으로 sign 기능을 갖추고 있는지 알아보려면 `nodeos`만 돌아가고 있는 서버로 host 를 변경하여 정상적으로 transaction 이 이뤄지는지를 확인하면 됨.(토큰전송, Ram 구입/판매, cpu/network 할당/반환, 투표 등)
 
 
+## 검증가능한 코드가 공개되어 있는가?
+
+* github과 같은 open source repository 에 검증가능하게 코드가 올려져있어야함.
+* code level 로 검증하였을때 보안상 문제가 없어야함.
 
 
