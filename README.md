@@ -1,39 +1,45 @@
-# eosio tutorial for MAC
+# 개발일지
 
-* non Producing-node
+## EOSHub
+* [EOSHub](https://github.com/eoshubio/eoshub-ios/tree/develop) 라는 이름으로 eos 모바일 콜드월렛 제작을 시작하였다. 오픈소스로 열어놨는데 아직 관심있는 사람은 없는 것 같다.
+* 혹시 관심있으신분 연락주세요!
+* 굳이 모바일인 이유는 나름 보안에 철저한 개발자인 나조차도 PC 바이러스에서 자유롭지 못하기 때문이다.
+* 크롬 익스텐션? 어차피 키로그 하나면 다 뚫린다. 
+* 서버는 언젠가 해킹당한다는것을 가정하고 만들고 있다. 어떠한 개인정보도 보관하지 않을 생각이다.
+* 해커들 눈돌아갔다. 예전엔 해킹이 거의 불가능한 은행에만 돈이 있었는데, 
+  요즘은 그냥 동네 서버에도 돈(코인) 을 가져갈 수 있는 프라이빗키가 저장되어있다.
+* EOS ECDSA로 transaction 을 서명하는데, 이 부분의 코드는 Oracle chain을 참고해서 만들었다.
+* 모바일내 키보관은 iCloud keychain 에 암호화해서 저장, 나머지 민감하지 않은 정보는 Realm 의 encryption 기능을 이용해 저장하였다.
+* EOS 에서 필요로 하는 기능은 대충 다 만들은것 같은데 고민인 포인트가 몇 가지 있다.
 
-## 1. config.ini
+## Private Copy-paste
+* Paste 보드는 딱히 보안을 지원하지 않는다. 모든 앱/서비스/PC프로그램 에서 접근가능하다. 
+* 만약 Private 를 넣기 위해 copy 를 하고, Paste보드에 있는 내용을 수집하는 악성 프로그램을 실행한다면 그냥 털리는거다. (이런거 그냥 기존앱에다 끼워넣으면 3분이면 만든다.)
+* Private 를 입력하기 위해선 직접 치는게 안전하다. (근데 너무 긴데...)
+* 이걸 OCR 로 풀면 어떨까도 생각중이다.
 
-```
-vim ~/Library/Application Support/eosio/nodeos/config/config.ini
+## Biometric
+* 소셜로그인 + 비밀번호를 숫자 6자리 or 얼굴인식(터치아이디) 로 일단 만들었는데....
+누군가 내가 자는동안 내휴대폰을 가지고 얼굴에 대서 풀면 ??!!! 너무도 당연하게 뚫린다.
+* Biometric 으로는 최대 전송가능한 EOS 를 제한해야겠다.
+* 그렇다면 많은양의 EOS 를 전송하려면 어떤 방법이 좋을까?
+* 2FA는 어차피 같은폰에 인스톨하는거라 의미가 없는데...모바일이 아닌것과 엮는 방법이 존재하나?
 
-producer-name = eosio
-plugin = eosio::http_plugin
-plugin = eosio::wallet_api_plugin
-plugin = eosio::chain_api_plugin
-```
+## 휴대폰 분실
+* 휴대폰 분실 + 사용자가 private key 를 이오스허브에 넣어두고 까먹은 경우. 어떻게 찾아야할 것인가?
+* iOS 는 iCloud keychain 을 이용하면 마법같이 안전하고 휴대폰 분실에 대해 걱정이 없는 보관이 가능한데...Android 는 아직 대책이 없다. 
+* (그래서 일단 iOS 만 만들고있다.)
 
-## 2. nodeos
 
-```
-./nodeos -e -p eosio 
-```
+## Ram-market
+* Ram 투기 현상이 심해지고 있어서, 이 기능을 넣어야하나 말아야하나 고민이 많다.
+* 일단 EOS의 기능이니 넣기는 넣었는데...
+* 또 넣차니 차트도 보여줘야할것 같고 오버스펙 같은데...
+* 일단 기본기능으로만 넣어두고 커뮤니티에서 필요로 하면 강화해야겠다.
 
-```
-Command Line Options for eosio::chain_plugin:
-    --fix-reversible-blocks               recovers reversible block database if 
-                                          that database is in a bad state
-    --force-all-checks                    do not skip any checks that can be 
-                                          skipped while replaying irreversible 
-                                          blocks
-    --replay-blockchain                   clear chain state database and replay 
-                                          all blocks
-    --hard-replay-blockchain              clear chain state database, recover as 
-                                          many blocks as possible from the block 
-                                          log, and then replay those blocks
-    --delete-all-blocks                   clear chain state database and block 
-                                          log
-```
+## 계정생성.
+* 만들기는 했는데 막고 출시해야 할 것같다.
+* Ram 값이 너무 비싸서 도저히 무료로 오픈할수가 없기때문이다.
+(최소 7000kb 정도는 할당해야함)
+* 램을 사기위한 이오스를 받고 트렌젝션을 확인하고 계정을 생성하는 코드를 개발중인데, Apple 심사를 통과할지 모르겠어서 일단 막고 가는게 좋을것 같다.
 
-## 3. rpc
-...ㅇㅓ.. create wallet 을  RPC로 날리면 JSON error가 떨어지는데 왜지?...
